@@ -41,7 +41,9 @@ export default function product() {
   // select
 
   const handlerProduct = async () => {
-    const response = await api.get("/product");
+    const response = await api.get("/product", {
+      headers: { "Content-Type": "application/json" },
+    });
     const product: product[] = response.data;
 
     setProduct(product);
