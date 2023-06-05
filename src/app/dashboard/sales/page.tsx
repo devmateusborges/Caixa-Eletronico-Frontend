@@ -109,7 +109,7 @@ export default function product() {
       <div className=" relative bg-white rounded-lg w-full p-5 h-[85%]">
         <Table
           data={sales}
-          title="Vedas"
+          title="Vendas"
           column={columnName}
           handleDelete={(id) => handlerDelete(id)}
           emptyData={emptyData}
