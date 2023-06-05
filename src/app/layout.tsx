@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body
         className={`${roboto.variable} ${baiJamjuree.variable} bg-gray-100   font-sans text-gray-500 `}
       >
-        <div className="w-full h-full md:hidden flex items-center justify-center">
+        <div className="w-full h-screen md:hidden bg-white flex items-center justify-center">
           <p className="font-bold">Essa aplicação somente para computadores</p>
         </div>
         <div className="hidden md:block">{children}</div>
