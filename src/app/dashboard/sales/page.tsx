@@ -7,43 +7,46 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 interface dataTableInfo {
-  table: "user" | "product";
+  table: "user" | "product" | "sales";
   nameFild: string;
   nameData: string;
 }
 
-export interface product {
+export interface Sales {
   id: string;
-  name: string;
-  price: number;
-  amount: number | null;
+  productId: string;
+  product: any;
+  clientId: string;
+  amount: number;
+  totalPrice: number;
   createdAt: Date;
 }
 
 export default function product() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [product, setProduct] = useState<product[]>([]);
+  const [sales, setsales] = useState<Sales[]>([]);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [emptyData, setEmptyData] = useState(false);
   const columnName: dataTableInfo[] = [
-    { table: "product", nameFild: "name", nameData: "nome" },
-    { table: "product", nameFild: "describe", nameData: "descrição" },
-    { table: "product", nameFild: "date", nameData: "data" },
-    { table: "product", nameFild: "price", nameData: "preço" },
+    { table: "sales", nameFild: "user", nameData: "usuario" },
+    { table: "sales", nameFild: "sales", nameData: "produto" },
+    { table: "sales", nameFild: "date", nameData: "data" },
+    { table: "sales", nameFild: "amount", nameData: "quantidade" },
+    { table: "sales", nameFild: "price", nameData: "total preço" },
   ];
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
-    handlerProduct();
+    handlersales();
   }, []);
 
   // select
 
-  const handlerProduct = async () => {
-    const response = await api.get("/product");
-    const product: product[] = response.data;
+  const handlersales = async () => {
+    const response = await api.get("/sales");
+    const sales: Sales[] = response.data;
 
-    setProduct(product);
+    setsales(sales);
   };
 
   // filter
@@ -51,18 +54,18 @@ export default function product() {
   const handlerFilter = async (filter: string) => {
     console.log(filter);
     if (filter !== "") {
-      const filterData = product.filter((product: product) =>
-        product.name.toLowerCase().includes(filter.toLowerCase())
+      const filterData = sales.filter((sales: Sales) =>
+        sales.product.name.toLowerCase().includes(filter.toLowerCase())
       );
 
       if (filterData.length == 0) {
         setEmptyData(true);
       } else {
         // setEmptyData(true);
-        setProduct(filterData);
+        setsales(filterData);
       }
     } else {
-      handlerProduct();
+      handlersales();
       setEmptyData(true);
     }
   };
@@ -70,22 +73,8 @@ export default function product() {
   //delete
 
   const handlerDelete = async (id: string) => {
-    await api.delete(`/user/` + id);
-    setProduct(product.filter((data) => data.id != id));
-  };
-
-  // sort
-  const handlerOrder = async (type: "name" | "date") => {
-    if (type == "name") {
-      const filterData = product.filter((product: product) =>
-        product.name.startsWith("a")
-      );
-      setProduct(filterData);
-    } else if (type == "date") {
-      const filterData = product.filter((product: product) =>
-        product.name.startsWith("a")
-      );
-    }
+    await api.delete(`/sales/` + id);
+    setsales(sales.filter((data) => data.id != id));
   };
 
   return (
@@ -105,22 +94,22 @@ export default function product() {
         {/* Dropdown  <Dropdown handleOrder={(selected) => handlerOrder(selected)} />  */}
 
         {/* LISTA e GRADE */}
-        <div className="md:absolute  md:flex right-2 w-[20%] md:w-[10%]">
+        {/* <div className="md:absolute  md:flex right-2 w-[20%] md:w-[10%]">
           <Link
-            href="/dashboard/product/create"
+            href="/dashboard/sales/create"
             className="bg-green-600 w-full flex rounded-xl p-2 items-center justify-center md:gap-x-2"
           >
             <Plus className="text-white h-5 w-5" />
             <p className="hidden md:block text-white font-bold">Criar</p>
           </Link>
-        </div>
+        </div> */}
       </div>
 
       {/* table */}
       <div className=" relative bg-white rounded-lg w-full p-5 h-[85%]">
         <Table
-          data={product}
-          title="Produtos"
+          data={sales}
+          title="Vedas"
           column={columnName}
           handleDelete={(id) => handlerDelete(id)}
           emptyData={emptyData}

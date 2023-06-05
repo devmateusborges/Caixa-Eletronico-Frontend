@@ -48,7 +48,6 @@ export default function dashboard() {
 
   // filter
   const handlerFilter = async (filter: string) => {
-    console.log(filter);
     if (filter !== "") {
       const filterData = user.filter((user: user) =>
         user.name.toLowerCase().includes(filter.toLowerCase())
@@ -74,10 +73,9 @@ export default function dashboard() {
 
   // order
   const handlerOrder = async (type: "name" | "date") => {
-    console.log(type);
     if (type == "name") {
       const filterData = user.sort();
-      console.log(">>>>>>", user);
+
       setUser(filterData);
     } else if (type == "date") {
       const filterData = user.filter((user: user) => user.name.startsWith("a"));

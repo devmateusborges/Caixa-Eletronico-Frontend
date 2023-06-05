@@ -15,6 +15,7 @@ import avatarImage from "../../../../assets/user.png";
 import { ChevronsRight } from "lucide-react";
 import { api } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import { Dropdown } from "@/components/Dropdown";
 
 interface update {
   params: {
@@ -28,6 +29,7 @@ export default function Update({ params }: update) {
   const [describe, setDescribe] = useState("");
   const [price, setPrice] = useState("");
   const [amount, setAmount] = useState("");
+  const [selected, setSelected] = useState("🔵");
   // useEfect
   useEffect(() => {
     handlerSelect();
@@ -35,11 +37,12 @@ export default function Update({ params }: update) {
 
   async function handlerSelect() {
     const resposeApi = await api.get("/product/" + params.id);
-    console.log(resposeApi.data);
+
     setName(resposeApi.data.name);
     setDescribe(resposeApi.data.describe);
     setPrice(resposeApi.data.price);
     setAmount(resposeApi.data.amount);
+    setSelected(resposeApi.data.icon);
   }
 
   // update
@@ -54,6 +57,7 @@ export default function Update({ params }: update) {
       describe: formData.get("describe"),
       price: Number(formData.get("price")),
       amount: Number(formData.get("amount")),
+      icon: selected,
     });
 
     push("/dashboard/product");
@@ -125,6 +129,10 @@ export default function Update({ params }: update) {
                   placeholder="EX: 150"
                   type="number"
                 />
+              </div>
+              <div className="w-full flex flex-col">
+                <label htmlFor="drop">* icone selecionado {selected}</label>
+                <Dropdown handleOrder={(emoji) => setSelected(emoji)} />
               </div>
 
               <button className=" inline-block rounded-lg bg-green-500 px-5 py-3 font-alt text-sm uppercase self-end leading-none text-white font-bold hover:bg-green-600">

@@ -6,7 +6,7 @@ import { formatDateTimeColumn, moneyFormat } from "@/utils/FuncUtil";
 import { api } from "@/lib/api";
 
 interface dataTableInfo {
-  table: "user" | "product";
+  table: "user" | "product" | "sales";
   nameFild: string;
   nameData: string;
 }
@@ -114,6 +114,9 @@ export function Table({ data, title, column, handleDelete, emptyData }: table) {
                 )}
                 {column[0].table == "product" && (
                   <>
+                    <td>
+                      <p className="md:text-3xl text-center">{data?.icon}</p>
+                    </td>
                     <td className="py-4 px-6 whitespace-nowrap">
                       {data?.name}
                     </td>
@@ -128,6 +131,32 @@ export function Table({ data, title, column, handleDelete, emptyData }: table) {
                     </td>
                     <td className="py-4 px-6 whitespace-nowrap">
                       {moneyFormat(data?.price)}
+                    </td>
+                  </>
+                )}
+
+                {column[0].table == "sales" && (
+                  <>
+                    <td className="py-4 px-6 whitespace-nowrap">
+                      {data?.user.name}
+                    </td>
+                    <td className="py-4 px-6 whitespace-nowrap">
+                      <p>
+                        {" "}
+                        {data?.product.icon} {data?.product.name}
+                      </p>
+                    </td>
+                    <td className="py-4 px-6 whitespace-nowrap">
+                      {formatDateTimeColumn(new Date(data?.cretedAt)).substring(
+                        0,
+                        10
+                      )}
+                    </td>
+                    <td className="py-4 px-6 whitespace-nowrap">
+                      {data?.amount}X
+                    </td>
+                    <td className="py-4 px-6 whitespace-nowrap">
+                      {moneyFormat(data?.totalPrice)}
                     </td>
                   </>
                 )}

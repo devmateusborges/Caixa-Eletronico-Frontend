@@ -3,13 +3,11 @@
 import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 
-export interface user {
-  id: string;
-  name: string;
-  login: string;
-  active: string;
-  cretedAt: string;
-  avatarUrl: string;
+export interface Sales {
+  productId: string;
+  clientId: string;
+  amount: number;
+  totalPrice: number;
 }
 import avatarImage from "../../../../assets/user.png";
 import { ChevronsRight } from "lucide-react";
@@ -24,8 +22,8 @@ interface update {
 
 export default function Update({ params }: update) {
   const { push } = useRouter();
-  const [name, setName] = useState("");
-  const [describe, setDescribe] = useState("");
+  const [nameUser, setNameUser] = useState("");
+  const [nameProduct, setNameProduct] = useState("");
   const [price, setPrice] = useState("");
   const [amount, setAmount] = useState("");
   // useEfect
@@ -34,29 +32,17 @@ export default function Update({ params }: update) {
   }, []);
 
   async function handlerSelect() {
-    const resposeApi = await api.get("/product/" + params.id);
-    console.log(resposeApi.data);
-    setName(resposeApi.data.name);
-    setDescribe(resposeApi.data.describe);
-    setPrice(resposeApi.data.price);
+    const resposeApi = await api.get("/sales/" + params.id);
+
+    setNameUser(resposeApi.data.User.name);
+    setNameProduct(resposeApi.data.product.name);
+    setPrice(resposeApi.data.totalPrice);
     setAmount(resposeApi.data.amount);
   }
 
   // update
   async function handlerUpdate(event: FormEvent<HTMLFormElement>) {
-    // Evita o envio padrão do formulário
-    event.preventDefault();
-
-    const formData = new FormData(event.currentTarget);
-
-    await api.put("/product/" + params.id, {
-      name: name,
-      describe: formData.get("describe"),
-      price: Number(formData.get("price")),
-      amount: Number(formData.get("amount")),
-    });
-
-    push("/dashboard/product");
+    push("/dashboard/sales");
   }
 
   return (
@@ -64,12 +50,11 @@ export default function Update({ params }: update) {
       <div className="h-full w-full flex flex-col gap-y-2  ">
         <div className="bg-blue-600 w-full text-white md:p-2 rounded-lg flex">
           <p className="w-full flex ">
-            Painel {<ChevronsRight />} Produto {<ChevronsRight />} Editar
-            Produto
+            Painel {<ChevronsRight />} Produto {<ChevronsRight />} ver vendas
           </p>
         </div>
         <div className="w-full h-full bg-white p-3 rounded-lg flex flex-col items-center justify-center ">
-          <h1 className="font-bold text-[5vh]">Atualizar Produto</h1>
+          <h1 className="font-bold text-[5vh]">Vendas</h1>
 
           <div className="w-full flex items-center justify-center ">
             <form
@@ -77,22 +62,21 @@ export default function Update({ params }: update) {
               className="w-[60%] flex flex-col gap-y-3"
             >
               <div className="w-full flex flex-col">
-                <label htmlFor="name">* Nome do produto</label>
+                <label htmlFor="name">* Nome do usuario</label>
                 <input
                   id="name"
                   name="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={nameUser}
+                  onChange={(e) => setNameUser(e.target.value)}
                   className="bg-[#D6D6D6] rounded-lg p-2"
                   placeholder="EX: TV, Armario, Sofa ..."
                   type="text"
                 />
               </div>
               <div className="w-full flex flex-col">
-                <label htmlFor="describe">* Descrição</label>
+                <label htmlFor="describe">* Nome do produto</label>
                 <textarea
-                  value={describe}
-                  onChange={(e) => setDescribe(e.target.value)}
+                  value={nameProduct}
                   placeholder="Descrição"
                   className=" bg-[#D6D6D6] border border-[#D6D6D6] outline-none rounded-lg p-2"
                   name="describe"
@@ -102,10 +86,9 @@ export default function Update({ params }: update) {
                 ></textarea>
               </div>
               <div className="w-full flex flex-col">
-                <label htmlFor="price">* Preço</label>
+                <label htmlFor="price">* Preço total</label>
                 <input
                   value={price}
-                  onChange={(e) => setPrice(e.target.value)}
                   name="price"
                   id="price"
                   className="bg-[#D6D6D6] rounded-lg p-2"
@@ -128,7 +111,7 @@ export default function Update({ params }: update) {
               </div>
 
               <button className=" inline-block rounded-lg bg-green-500 px-5 py-3 font-alt text-sm uppercase self-end leading-none text-white font-bold hover:bg-green-600">
-                Atualizar
+                Voltar
               </button>
             </form>
           </div>

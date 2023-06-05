@@ -6,10 +6,11 @@ import { useRouter } from "next/navigation";
 import avatarImage from "../../../../assets/user.png";
 import { ChevronsRight } from "lucide-react";
 import { api } from "@/lib/api";
+import { Dropdown } from "@/components/Dropdown";
 
 export default function Create() {
   const { push } = useRouter();
-
+  const [selected, setSelected] = useState("🔵");
   async function handlerCreateMemory(event: FormEvent<HTMLFormElement>) {
     // Evita o envio padrão do formulário
     event.preventDefault();
@@ -21,6 +22,7 @@ export default function Create() {
       describe: formData.get("describe"),
       price: Number(formData.get("price")),
       amount: Number(formData.get("amount")),
+      icon: selected,
     });
 
     push("/dashboard/product");
@@ -86,7 +88,15 @@ export default function Create() {
                 />
               </div>
 
-              <button className=" inline-block rounded-lg bg-green-500 px-5 py-3 font-alt text-sm uppercase self-end leading-none text-white font-bold hover:bg-green-600">
+              <div className="w-full flex flex-col">
+                <label htmlFor="drop">* Selecione o icone</label>
+                <Dropdown handleOrder={(emoji) => setSelected(emoji)} />
+              </div>
+
+              <button
+                type="submit"
+                className=" inline-block rounded-lg bg-green-500 px-5 py-3 font-alt text-sm uppercase self-end leading-none text-white font-bold hover:bg-green-600"
+              >
                 Cadastrar
               </button>
             </form>

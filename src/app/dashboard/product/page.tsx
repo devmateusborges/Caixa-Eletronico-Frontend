@@ -26,6 +26,7 @@ export default function product() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [emptyData, setEmptyData] = useState(false);
   const columnName: dataTableInfo[] = [
+    { table: "product", nameFild: "icon", nameData: "icone" },
     { table: "product", nameFild: "name", nameData: "nome" },
     { table: "product", nameFild: "describe", nameData: "descrição" },
     { table: "product", nameFild: "date", nameData: "data" },
@@ -49,7 +50,6 @@ export default function product() {
   // filter
 
   const handlerFilter = async (filter: string) => {
-    console.log(filter);
     if (filter !== "") {
       const filterData = product.filter((product: product) =>
         product.name.toLowerCase().includes(filter.toLowerCase())
@@ -70,7 +70,7 @@ export default function product() {
   //delete
 
   const handlerDelete = async (id: string) => {
-    await api.delete(`/user/` + id);
+    await api.delete(`/product/` + id);
     setProduct(product.filter((data) => data.id != id));
   };
 

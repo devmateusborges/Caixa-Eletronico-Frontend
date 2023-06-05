@@ -36,7 +36,7 @@ export default function Update({ params }: update) {
 
   async function handlerSelect() {
     const resposeApi = await api.get("/user/" + params.id);
-    console.log(resposeApi.data);
+    resposeApi.data;
     setName(resposeApi.data.name);
     setLogin(resposeApi.data.login);
     setAvatarUrl(resposeApi.data.avatarUrl);
