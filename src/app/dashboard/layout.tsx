@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           {children}
         </div>
       </div>
-      <footer className="hidden md:block  flex w-90 items-center justify-center bg-[#081226] ">
+      <footer className="hidden md:flex w-90 items-center justify-center bg-[#081226] ">
         <div>
           <p>&copy; Mateus Borges</p>
         </div>
